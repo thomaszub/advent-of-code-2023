@@ -2,6 +2,7 @@ package day2
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -40,26 +41,21 @@ func solve(lines []string) (int, error) {
 		if err != nil {
 			return result, err
 		}
-		if valid(g.sets) {
-			result += g.id
-		}
+		result += power(g.sets)
 	}
 	return result, nil
 }
 
-func valid(sets []set) bool {
+func power(sets []set) int {
+	red := 0
+	blue := 0
+	green := 0
 	for _, s := range sets {
-		if s.red > 12 {
-			return false
-		}
-		if s.green > 13 {
-			return false
-		}
-		if s.blue > 14 {
-			return false
-		}
+		red = int(math.Max(float64(red), float64(s.red)))
+		blue = int(math.Max(float64(blue), float64(s.blue)))
+		green = int(math.Max(float64(green), float64(s.green)))
 	}
-	return true
+	return red * blue * green
 }
 
 func parse(line string) (game, error) {
